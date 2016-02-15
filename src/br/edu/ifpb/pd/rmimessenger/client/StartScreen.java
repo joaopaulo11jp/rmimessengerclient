@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import br.edu.ifpb.pd.rmimessenger.interfaces.ClientIF;
@@ -103,7 +104,7 @@ public class StartScreen implements ActionListener{
 			try {
 	            MessengerIF messenger = (MessengerIF) Naming.lookup("rmi://localhost/chat");
 	            ClientIF client = new Client(textField_1.getText());
-	            messenger.joinMessenger(client);
+	            if(!messenger.joinMessenger(client)) throw new Exception("Usuario ja existente!");
 	            new MainScreen(client,messenger).frame.setVisible(true);
 	            frame.dispose();
 	        } catch (NotBoundException ex) {
@@ -112,6 +113,8 @@ public class StartScreen implements ActionListener{
 	            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
 	        } catch (RemoteException ex) {
 	            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
+	        }  catch (Exception ex) {
+	            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
 	        }
 			
 		}

@@ -7,11 +7,13 @@ import java.rmi.RemoteException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import br.edu.ifpb.pd.rmimessenger.interfaces.ClientIF;
 import br.edu.ifpb.pd.rmimessenger.interfaces.MessengerIF;
+
 import javax.swing.JTextPane;
 import javax.swing.JList;
 
@@ -23,6 +25,7 @@ public class MainScreen implements ActionListener{
 	private MessengerIF messenger;
 	JTextArea textArea;
 	JTextArea textArea_1;
+	JCheckBox chckbxPrivado;
 
 	public MainScreen(ClientIF client,MessengerIF messenger) {
 		this.client = client;
@@ -42,7 +45,7 @@ public class MainScreen implements ActionListener{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JCheckBox chckbxPrivado = new JCheckBox("Privado :");
+		chckbxPrivado = new JCheckBox("Privado :");
 		chckbxPrivado.setBounds(8, 198, 87, 23);
 		frame.getContentPane().add(chckbxPrivado);
 		
@@ -76,10 +79,18 @@ public class MainScreen implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Send")){
 			try {
-				messenger.sendPublicMessage(textArea.getText());
+				if(!chckbxPrivado.isSelected())
+					messenger.sendPublicMessage(client.getName(),textArea.getText());
+				else{
+					if(!messenger.sendPrivateMessage(client.getName(),textField.getText(), textArea.getText()))
+					throw new Exception("Usuario nao encontrado");
+				}
+				
+				textArea.setText("");
 			} catch (RemoteException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			} catch (Exception ex){
+				JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
 			}
 		}
 	}
