@@ -1,20 +1,31 @@
 package br.edu.ifpb.pd.rmimessenger.client;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.BorderLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import br.edu.ifpb.pd.rmimessenger.interfaces.ClientIF;
+import br.edu.ifpb.pd.rmimessenger.interfaces.MessengerIF;
 
-public class StartScreen {
+
+public class StartScreen implements ActionListener{
 
 	private JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
+	JLabel lblNome;
 
 	/**
 	 * Launch the application.
@@ -49,12 +60,18 @@ public class StartScreen {
 		frame.getContentPane().setLayout(null);
 		
 		
+		JButton btnEntrar = new JButton("Entrar");
+		btnEntrar.setBounds(118, 334, 117, 25);
+		btnEntrar.addActionListener(this);
+		btnEntrar.setActionCommand("Open");
+		frame.getContentPane().add(btnEntrar);
+		
 		textField_1 = new JTextField();
 		textField_1.setBounds(116, 290, 131, 19);
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
 		
-		JLabel lblNome = new JLabel("Nome");
+		lblNome = new JLabel("Nome");
 		lblNome.setBounds(66, 292, 49, 15);
 		frame.getContentPane().add(lblNome);
 		
@@ -77,5 +94,26 @@ public class StartScreen {
 		label.setBounds(0, 0, 348, 473);
 		frame.getContentPane().add(label);
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		if(e.getActionCommand().equals("Open")){
+			try {
+	            MessengerIF messenger = (MessengerIF) Naming.lookup("rmi://localhost/chat");
+	            ClientIF client = new Client(textField_1.getText());
+	            messenger.joinMessenger(client);
+	            new MainScreen(client,messenger).frame.setVisible(true);
+	            frame.dispose();
+	        } catch (NotBoundException ex) {
+	            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
+	        } catch (MalformedURLException ex) {
+	            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
+	        } catch (RemoteException ex) {
+	            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
+	        }
+			
+		}
 	}
 }
