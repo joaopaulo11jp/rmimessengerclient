@@ -136,8 +136,9 @@ public class MainScreen implements ActionListener{
 				if(!chckbxPrivado.isSelected())
 					messenger.sendPublicMessage(client.getName(),textArea.getText());
 				else{
-					if(!messenger.sendPrivateMessage(client.getName(),textField.getText(), textArea.getText()))
-					throw new Exception("Usuario nao encontrado");
+					int result = messenger.sendPrivateMessage(client.getName(),textField.getText(), textArea.getText());
+					if(result == 0)throw new Exception("Usuario nao encontrado");
+					else if(result == -1) throw new Exception("Nao e possivel enviar para voce mesmo");
 				}
 				
 				textArea.setText("");
