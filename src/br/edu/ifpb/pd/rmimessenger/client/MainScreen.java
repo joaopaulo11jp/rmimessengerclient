@@ -34,6 +34,7 @@ public class MainScreen implements ActionListener{
 		try {
 			this.client.setTextArea(textArea_1);
 			this.client.setUserListArea(textArea_2);
+			this.frame.setTitle("RMIMessenger | Usuario: "+client.getName());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
