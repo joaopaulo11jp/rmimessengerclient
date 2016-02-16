@@ -1,6 +1,8 @@
 package br.edu.ifpb.pd.rmimessenger.client;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
@@ -56,8 +58,13 @@ public class StartScreen implements ActionListener{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 350, 500);
+				
+		int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+		int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+		frame.setLocation(x, y);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
