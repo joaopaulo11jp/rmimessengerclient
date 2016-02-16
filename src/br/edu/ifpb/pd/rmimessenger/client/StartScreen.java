@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
+import java.rmi.ConnectException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -102,7 +103,7 @@ public class StartScreen implements ActionListener{
 		
 		if(e.getActionCommand().equals("Open")){
 			try {
-	            MessengerIF messenger = (MessengerIF) Naming.lookup("rmi://localhost/chat");
+	            MessengerIF messenger = (MessengerIF) Naming.lookup("rmi://"+textField.getText()+"/chat");
 	            ClientIF client = new Client(textField_1.getText());
 	            if(!messenger.joinMessenger(client)) throw new Exception("Usuario ja existente!");
 	            new MainScreen(client,messenger).frame.setVisible(true);
@@ -111,8 +112,10 @@ public class StartScreen implements ActionListener{
 	            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
 	        } catch (MalformedURLException ex) {
 	            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
+	        } catch (ConnectException ex){
+	        	JOptionPane.showMessageDialog(null, "Servidor indisponivel", "Erro", 0);
 	        } catch (RemoteException ex) {
-	            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
+	            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex); 
 	        }  catch (Exception ex) {
 	            JOptionPane.showMessageDialog(null, ex.getClass().getName(), "Erro", 0);
 	        }
