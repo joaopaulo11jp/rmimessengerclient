@@ -11,13 +11,16 @@ import java.rmi.RemoteException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import br.edu.ifpb.pd.rmimessenger.interfaces.ClientIF;
 import br.edu.ifpb.pd.rmimessenger.interfaces.MessengerIF;
-import javax.swing.JLabel;
+import java.awt.Label;
+import javax.swing.ImageIcon;
 
 public class MainScreen implements ActionListener{
 
@@ -29,6 +32,7 @@ public class MainScreen implements ActionListener{
 	JTextArea textArea_1;
 	JTextArea textArea_2;
 	JCheckBox chckbxPrivado;
+	private JScrollPane pane;
 
 	public MainScreen(ClientIF client,MessengerIF messenger) {
 		this.client = (Client) client;
@@ -41,6 +45,11 @@ public class MainScreen implements ActionListener{
 			JLabel lblUsuriosOnline = new JLabel("Usuários Online");
 			lblUsuriosOnline.setBounds(569, 12, 117, 15);
 			frame.getContentPane().add(lblUsuriosOnline);
+			
+			JLabel label = new JLabel("");
+			label.setIcon(new ImageIcon(MainScreen.class.getResource("/br/edu/ifpb/pd/rmimessenger/img/578220-800x600.jpg")));
+			label.setBounds(0, 2, 698, 471);
+			frame.getContentPane().add(label);
 			this.frame.setTitle("RMIMessenger | Usuario: "+client.getName());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -66,7 +75,7 @@ public class MainScreen implements ActionListener{
 		frame.getContentPane().add(chckbxPrivado);
 		
 		textField = new JTextField();
-		textField.setBounds(97, 383, 206, 19);
+		textField.setBounds(122, 383, 206, 19);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
@@ -82,6 +91,7 @@ public class MainScreen implements ActionListener{
 		
 		textArea_1 = new JTextArea();
 		textArea_1.setEditable(false);
+		//textArea_1.setOpaque(false);
 		textArea_1.setBounds(12, 29, 545, 344);
 		frame.getContentPane().add(textArea_1);
 		
