@@ -2,6 +2,7 @@ package br.edu.ifpb.pd.rmimessenger.interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.Collection;
 
 public interface MessengerIF extends Remote{
 	public boolean joinMessenger(ClientIF client) throws RemoteException;

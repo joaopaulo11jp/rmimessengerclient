@@ -114,7 +114,7 @@ public class StartScreen implements ActionListener{
 	        } catch (RemoteException ex) {
 	            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
 	        }  catch (Exception ex) {
-	            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 0);
+	            JOptionPane.showMessageDialog(null, ex.getClass().getName(), "Erro", 0);
 	        }
 			
 		}

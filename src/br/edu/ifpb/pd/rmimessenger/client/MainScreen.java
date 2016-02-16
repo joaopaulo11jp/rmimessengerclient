@@ -20,22 +20,25 @@ public class MainScreen implements ActionListener{
 
 	public JFrame frame;
 	private JTextField textField;
-	private ClientIF client;
+	private Client client;
 	private MessengerIF messenger;
 	JTextArea textArea;
 	JTextArea textArea_1;
+	JTextArea textArea_2;
 	JCheckBox chckbxPrivado;
 
 	public MainScreen(ClientIF client,MessengerIF messenger) {
-		this.client = client;
+		this.client = (Client) client;
 		this.messenger = messenger;
 		initialize();
 		try {
 			this.client.setTextArea(textArea_1);
+			this.client.setUserListArea(textArea_2);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.client.refreshList();
 	}
 
 	private void initialize() {
@@ -69,7 +72,7 @@ public class MainScreen implements ActionListener{
 		textArea_1.setBounds(12, 12, 291, 178);
 		frame.getContentPane().add(textArea_1);
 		
-		JTextArea textArea_2 = new JTextArea();
+		textArea_2 = new JTextArea();
 		textArea_2.setEditable(false);
 		textArea_2.setBounds(321, 12, 115, 178);
 		frame.getContentPane().add(textArea_2);
